@@ -1,0 +1,9 @@
+.Lista-entrenamientos{
+    display: flex;
+    flex-direction: column;
+    gap: 2em;
+}
+
+.Lista-entrenamientos h3{
+    font-weight: 600;
+}

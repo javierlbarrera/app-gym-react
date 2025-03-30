@@ -1,0 +1,12 @@
+.Inicio{
+    display: flex;
+    flex-direction: column;
+    gap: 0.4em;
+
+}
+.Inicio h3{
+    font-weight: 400;
+}
+.Inicio__button{
+    font-weight: 400;
+}
