@@ -1,11 +1,13 @@
 import './Inicio.css'
 
+
 export const Inicio = () => {
 
     return (
         <>
             <EntrenamientoRapido/>
             <EntrenamientoGuardado/>
+            <hr style={{color : "#D9D9D9"}} />
         </>
     )
     }

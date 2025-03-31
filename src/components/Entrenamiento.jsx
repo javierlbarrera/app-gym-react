@@ -1,38 +1,42 @@
 import './Entrenamiento.css'
+import { BsChevronDown } from "react-icons/bs"
+import { BsThreeDots } from "react-icons/bs"
+import  Avatar from '../assets/Avatar.svg'
+import Usuario from '../assets/Usuario.png'
 
 export const Entrenamiento = () => {
-
 
     return(
 
         <section className="Entrenamiento">
             <div className="Entrenamiento__header">
                 <div className="Header__titulo">
-                    <h4>Entrenamiento de brazo 💪🏻</h4>
-                    <img src="#" alt="boton de tres" />
+                    <h3>Entrenamiento de brazo 💪🏻</h3>
+                    <BsThreeDots size={18} />
                 </div>
                 <div className="Header__usuario">
-                    <img className='Usuario__foto' src="#" alt="foto de perfil" />
+                    <img className='Usuario__foto' src={Avatar} alt="Iniciales de usuario" />
                     <div className='Usuario__info'>
-                        <p>Javier López</p>
-                        <p>Hace 8 horas</p>
+                        <p className='Usuario__info--nombre'>Javier López</p>
+                        <p className='Usuario__info--fecha'>Hace 8 horas</p>
                     </div>
                 </div>
                 <div className="Header__datos">
-                    <div className="Datos__tiempo">
-                        <p><strong>Tiempo</strong></p>
-                        <p>58 minutos</p>
+                    <div className="Datos">
+                        <p>Tiempo</p>
+                        <p className='Datos__valor'>58 minutos</p>
                     </div>
-                    <div className="Datos__volumen">
-                        <p><strong>Volumen</strong></p>
-                        <p>3200 kg movidos </p>
+                    <div className="Datos">
+                        <p>Volumen</p>
+                        <p className='Datos__valor'>3200 kg movidos </p>
                     </div>
                 </div>
             </div>
+            <hr style={{color : "#D9D9D9",   marginLeft: "-1rem", marginRight: "-1rem", width: "calc(100% + 2rem)"}} /> {/* Tenía el problema de cómo aplicar el padding a todos los items excepto a este hr. Y sí, el poner márgenes negativos es una solución propuesta por ChatGPT */}
             <div className="Entrenamiento__lista">
                 <div className="Lista__header">
                     <h4>Ejercicios</h4>
-                    <img src="#" alt="boton de dropdown" />
+                    <BsChevronDown />
                 </div>
                 <div className="Lista__ejercicios">
                     <Ejercicio />
@@ -48,7 +52,7 @@ const Ejercicio = () => {
 
     return(
         <div className="Ejercicio">
-            <img src="#" alt="foto de ejercicio" />
+            <img src={Usuario} alt="Foto del usuario" />
             <p>1 serie de elevación lateral de mancuernas</p>
         </div>
     )

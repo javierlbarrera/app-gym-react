@@ -9,12 +9,17 @@
 .Entrenamiento__header{
     display: flex;
     flex-direction: column;
-    gap: 0.6rem;
+    gap: 1.2rem;
 }
 .Header__titulo{
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    align-items: center;
+
+}
+.Header__titulo h3{
+    font-weight: 400;
 }
 .Header__usuario{
     display: flex;
@@ -25,18 +30,37 @@
 
 }
 .Usuario__info{
-
+    font-size: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+}
+.Usuario__info--nombre{
+    color: #757575;
+    font-weight: 600;
+}
+.Usuario__info--fecha{
+    color: #B3B3B3;
+    font-weight: 400;
 }
 .Header__datos{
     display: flex;
     flex-direction: row;
     gap: 4rem;
 }
-.Datos__tiempo{
+.Datos{
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+}
+.Datos--tiempo{
     
 }
-.Datos__volumen{
+.Datos--volumen{
     
+}
+.Datos__valor{
+    color: #757575;
 }
 .Entrenamiento__lista{
     display: flex;
@@ -48,6 +72,9 @@
     flex-direction: row;
     justify-content: space-between;
 }
+.Lista__header h4{
+    font-weight: 400;
+}
 .Lista__ejercicios{
     display: flex;
     flex-direction: column;
@@ -57,4 +84,6 @@
 .Ejercicio{
     display: flex;
     flex-direction: row;
+    gap: 1rem;
+    flex-wrap: wrap;
 }
