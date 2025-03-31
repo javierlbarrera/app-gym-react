@@ -32,6 +32,7 @@ body{
 @media screen and (max-width: 600px) {
   #root {
     padding: 1rem;
+    border-radius: 0em;
   }
   body{
     padding: 0em;

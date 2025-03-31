@@ -1,3 +1,7 @@
+svg {
+    display: inline-block;
+  }
+
 .Entrenamiento{
     border: 1px solid rgba(0, 0, 0, 0.6); 
     border-radius: 0.5rem;
@@ -16,11 +20,28 @@
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-
 }
 .Header__titulo h3{
     font-weight: 400;
 }
+.Header__boton{
+    all: unset; /* necesario, ya que los botones tienen una clase global que afecta a esto (si no he perdido una hora en esto...) */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: none;
+    border: none;
+    font: inherit;
+    color: inherit;
+    cursor: pointer;
+}
+.Header__boton svg{
+    width: 18px;
+    height: 18px;
+    display: block; /* prevents weird inline spacing */
+    color: #333;
+}
+
 .Header__usuario{
     display: flex;
     flex-direction: row;
@@ -75,15 +96,33 @@
 .Lista__header h4{
     font-weight: 400;
 }
+
+.Chevron{
+    transition: transform 0.2s ease-in;
+    transform-origin: 50% 45%; /* El chevron giraba alrededor de su pico, lo que hacía que la animación se viera un poco rara. Esto lo solucionó. (ChatGPT) */
+}
+.Chevron.girado {
+    transform: rotate(180deg);
+}
 .Lista__ejercicios{
     display: flex;
     flex-direction: column;
-    gap: 0.6rem;
+    gap: 1rem;
+    animation: fadeIn 0.6s ease forwards;
 }
 
 .Ejercicio{
     display: flex;
     flex-direction: row;
     gap: 1rem;
-    flex-wrap: wrap;
+    align-items: center;
 }
+
+@keyframes fadeIn { /* Keyframes para la animación en la que se muestran los ejercicios. He usado IA para ello  */
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }

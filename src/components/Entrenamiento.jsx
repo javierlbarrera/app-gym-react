@@ -3,8 +3,15 @@ import { BsChevronDown } from "react-icons/bs"
 import { BsThreeDots } from "react-icons/bs"
 import  Avatar from '../assets/Avatar.svg'
 import Usuario from '../assets/Usuario.png'
+import { useState } from 'react'
 
 export const Entrenamiento = () => {
+
+    const [lista, setLista] = useState(true)
+
+    const toggleLista = () => {
+        setLista(!lista)
+    }
 
     return(
 
@@ -12,7 +19,9 @@ export const Entrenamiento = () => {
             <div className="Entrenamiento__header">
                 <div className="Header__titulo">
                     <h3>Entrenamiento de brazo 💪🏻</h3>
-                    <BsThreeDots size={18} />
+                    <button className='Header__boton'>
+                        <BsThreeDots size={18} />
+                    </button>
                 </div>
                 <div className="Header__usuario">
                     <img className='Usuario__foto' src={Avatar} alt="Iniciales de usuario" />
@@ -32,17 +41,19 @@ export const Entrenamiento = () => {
                     </div>
                 </div>
             </div>
-            <hr style={{color : "#D9D9D9",   marginLeft: "-1rem", marginRight: "-1rem", width: "calc(100% + 2rem)"}} /> {/* Tenía el problema de cómo aplicar el padding a todos los items excepto a este hr. Y sí, el poner márgenes negativos es una solución propuesta por ChatGPT */}
+            <hr style={{color : "#D9D9D9",   marginLeft: "-1rem", marginRight: "-1rem", width: "calc(100% + 2rem)"}} /> {/* Tenía el problema de cómo aplicar el padding a todos los items excepto a este hr. Y sí, lo de poner márgenes negativos es una solución propuesta por ChatGPT */}
             <div className="Entrenamiento__lista">
                 <div className="Lista__header">
                     <h4>Ejercicios</h4>
-                    <BsChevronDown />
+                    <button onClick={toggleLista} className='Header__boton'>
+                        <BsChevronDown className={`Chevron ${!lista ? 'girado' : ''}`} />
+                    </button>
                 </div>
-                <div className="Lista__ejercicios">
+                {lista && <div className="Lista__ejercicios">
                     <Ejercicio />
                     <Ejercicio />
                     <Ejercicio /> {/* probablemente otro map aquí sí señor */}
-                </div>
+                </div>}
             </div>
         </section>
     )
