@@ -1,0 +1,55 @@
+
+.Fondo{
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100dvh;
+    width: 100vw;
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(4px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1;
+}
+.Opciones{
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+    background: white;
+    padding: 2rem;
+    border-radius: 0.5rem;
+    position: relative;
+    width: 90%;
+    max-width: 600px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+    animation: fadeIn 0.3s ease-out forwards;
+}
+.Opciones-boton{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+}
+.Peligro{
+    background: #fff0f0;
+    color: #d32f2f;
+    border: 1px solid #d32f2f;
+}
+.Boton-cerrar{
+    all: unset;
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: #888;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
