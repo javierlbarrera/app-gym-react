@@ -1,35 +1,35 @@
 import './Inicio.css'
-
+import { NavLink } from 'react-router-dom';
 
 export const Inicio = () => {
 
     return (
         <>
-            <EntrenamientoRapido/>
-            <EntrenamientoGuardado/>
-            <hr style={{color : "#D9D9D9"}} />
+            <BotonEntrenamiento/>
+{/*             <BotonEntrenamientoGuardado/>
+ */}            <hr style={{color : "#D9D9D9"}} />
         </>
     )
     }
 
-const EntrenamientoRapido = () => {
+const BotonEntrenamiento = () => {
 
     return (
         <section className="Inicio">
             <h3>Inicio</h3>
-            <button className="Inicio__button">
-                + Empezar entrenamiento rápido
-            </button>
+            <NavLink to="/entrenamiento-rapido">
+                <button>+ Empezar entrenamiento rápido</button>
+            </NavLink>
     </section>
     )
 }
 
-const EntrenamientoGuardado = () => {  
+const BotonEntrenamientoGuardado = () => {  
 
     return (
         <section className="Inicio">
             <h3>Entrenamientos guardados</h3>
-            <button className="Inicio__button">
+            <button>
                 + Empezar entrenamiento guardado
             </button>
         </section>

@@ -1,0 +1,51 @@
+.Selector__container h1{
+    font-size: 1.8rem;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+}
+
+.Selector__busqueda{
+    width: 100%;
+    padding: 0.8rem;
+    margin-bottom: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 1rem;
+}
+
+.Selector__dropdown{
+    width: 100%;
+    padding: 0.8rem;
+    margin-bottom: 1.5rem;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 1rem;
+}
+
+.Selector__separador{
+    margin: 1rem 0;
+    border: none;
+    border-top: 1px solid #D9D9D9;
+}
+
+.Selector__lista{
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4em;
+}
+
+.Ejercicio-item{
+    padding: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    margin-bottom: 0.8rem;
+    font-size: 1rem;
+    background-color: #f9f9f9;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.Ejercicio-item:hover {
+    background-color: #efefef;
+}
