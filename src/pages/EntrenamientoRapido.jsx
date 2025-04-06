@@ -1,12 +1,38 @@
 import './EntrenamientoRapido.css'
 import { NavLink } from 'react-router-dom'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 
 export const EntrenamientoRapido = () => {
 
+    const [ejercicios, setEjercicios] = useState([]) // Estado para almacenar los ejercicios del entrenamiento rápido (?)
 
-    const [ejercicios, setEjercicios] = useState([])
 
+    const iniciarEntrenamiento = async () => {
+
+        const options = {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                nombre: "Entrenamiento rápido",
+                usuario: "usuario-id",
+                ejercicios: [],
+                duracion: 0,
+                volumen: 0,
+            }),
+        }
+
+        const response = await fetch('http://localhost:3000/entrenamientos', options)
+
+        //e.preventdefault si lo implemento como formulario
+
+    }
+
+    useEffect(() => { //Quiero hacer el POST al iniciar el componente, para que se cree un nuevo entrenamiento rápido cada vez que se accede a la página
+        iniciarEntrenamiento()
+        console.log("Entrenamiento rápido iniciado")
+    }, [])
+    
+    
     return (
         <>
             <header>

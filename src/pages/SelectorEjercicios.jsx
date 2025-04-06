@@ -1,40 +1,69 @@
 import './SelectorEjercicios.css'
+import { useState, useEffect } from 'react';
 
-const exercises = [
-    { name: 'Press banca' },
-    { name: 'Sentadillas' },
-    { name: 'Dominadas' },
-    { name: 'Curl bíceps' },
-    { name: 'Press militar' },
-    { name: 'Plancha' }
-];
 
 export const SelectorEjercicios = () => {
+
+    const [ejercicios, setEjercicios] = useState([]) //state para guardar los ejercicios que vienen de la API y poder filtralos dinámicamente
+    const [terminoBusqueda, setTerminoBusqueda] = useState('') //state para guardar el valor del input de la búsqueda (como en clase :) )
+    const [grupoMuscular, setGrupoMuscular] = useState('') //state para guardar el valor del select de grupo muscular 
+
+    const recibirEjercicios = async () => {
+        const response = await fetch('http://localhost:3000/ejercicios')
+        const datos = await response.json()
+        setEjercicios(datos)
+        console.log(datos) 
+    }
+
+    useEffect(() => {
+        recibirEjercicios()
+    }, [])    
+
+    const inputChange = (e) => {
+        setTerminoBusqueda(e.target.value.toLowerCase()) // aquí también lo convierto a minúsculas por si acaso
+    }
+
+    const selectChange = (e) => {
+        setGrupoMuscular(e.target.value.toLowerCase())
+    }
 
     return (
         <section className="Selector__container">
             <h1>Añade un ejercicio</h1>
+            <form action="" id='Búsqueda y filtro'>
+                <input type="text" placeholder="Buscar ejercicio" className="Selector__busqueda" value={terminoBusqueda} onChange={inputChange} />
 
-            <input type="text" placeholder="Buscar ejercicio" className="Selector__busqueda" />
-
-            <select className="Selector__dropdown">
-                <option value="">Grupo muscular</option>
-                <option value="pecho">Pecho</option>
-                <option value="pierna">Pierna</option>
-                <option value="espalda">Espalda</option>
-                <option value="brazo">Brazo</option>
-                <option value="hombro">Hombro</option>
-                <option value="core">Core</option>
-            </select>
+                <select className="Selector__dropdown" value={grupoMuscular} onChange={selectChange}>
+                    <option value="">Grupo muscular</option>
+                    <option value="pecho">Pecho</option>
+                    <option value="pierna">Pierna</option>
+                    <option value="espalda">Espalda</option>
+                    <option value="brazo">Brazo</option>
+                    <option value="hombro">Hombro</option>
+                    <option value="core">Core</option>
+                </select>
+            </form>
 
             <hr className='Selector__separador' />
 
             <ul className="Selector__lista">
-                {exercises.map((exercise, index) => (
-                    <li className="Ejercicio-item" key={index}>
-                        <p>{exercise.name}</p>
+
+                { ejercicios.length === 0 ? (
+                    <li className="Ejercicio__item">
+                        <p>No hay ejercicios disponibles</p>
                     </li>
-                ))}
+                ) : (
+                    // Aquí filtro los ejercicios por el nombre que contiene el input de la búsqueda. Los ejercicios ya están guardados en el state así que no se hacen varias llamadas a la API
+                    ejercicios 
+                    .filter((eachEjercicio) => eachEjercicio.nombre.toLowerCase().includes(terminoBusqueda))
+                    .filter((eachEjercicio) => eachEjercicio.grupoMuscular.toLowerCase().includes(grupoMuscular)) // Aquí filtro por el grupo muscular que selecciono en el select
+                    .map((eachEjercicio) => (
+                        <li className="Ejercicio__item" key={eachEjercicio._id}>
+                            <button className='Ejercicio__boton'>{eachEjercicio.nombre}</button>
+                        </li>
+                    ))
+                )
+                }
             </ul>
         </section>
     )

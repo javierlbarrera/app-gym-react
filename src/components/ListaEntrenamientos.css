@@ -1,9 +1,9 @@
-.Lista-entrenamientos{
+.ListaEntrenamientos{
     display: flex;
     flex-direction: column;
     gap: 2em;
 }
 
-.Lista-titulo{
+.Lista__titulo{
     font-weight: 600;
 }

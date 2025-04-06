@@ -1,82 +1,87 @@
 import './Entrenamiento.css'
 import { BsChevronDown } from "react-icons/bs"
 import { BsThreeDots } from "react-icons/bs"
-import  Avatar from '../assets/Avatar.svg'
+import Avatar from '../assets/Avatar.svg'
 import Usuario from '../assets/Usuario.png'
 import { useState } from 'react'
-import { Opciones } from './Opciones.jsx'
 
-export const Entrenamiento = () => {
+export const Entrenamiento = (props) => {
 
-    const [lista, setLista] = useState(true)
-    const [opciones, setOpciones] = useState(false)
+    const [lista, setLista] = useState(false)
 
     const toggleLista = () => {
         setLista(!lista)
     }
-    const abrirOpciones = () => {
-        setOpciones(true)
-    }
-    const cerrarOpciones = () => { 
-        setOpciones(false)
-    }
 
-    return(
-    <>
-        {opciones && 
-            <Opciones onClose={cerrarOpciones} /> //pasamos la función de cerrar las opciones como prop, para poder cerrarlas desde el componente Opciones
-        }
-        <section className="Entrenamiento">
-            <div className="Entrenamiento__header">
-                <div className="Header__titulo">
-                    <h3>Entrenamiento de brazo 💪🏻</h3>
-                    <button className='Header__boton'>
-                        <BsThreeDots size={18} onClick={abrirOpciones} />
-                    </button>
-                </div>
-                <div className="Header__usuario">
-                    <img className='Usuario__foto' src={Avatar} alt="Iniciales de usuario" />
-                    <div className='Usuario__info'>
-                        <p className='Usuario__info--nombre'>Javier López</p>
-                        <p className='Usuario__info--fecha'>Hace 8 horas</p>
+    const { nombre, usuario, fecha, duracion, ejercicios, onOpcionesAbiertas } = props //desestructuro los props, que incluyen la función abrirOpciones pasada desde ListaEntrenamientos
+
+    //aquí quería calcular el volumen total de cada entrenamiento, multiplicando los kg x las repeticiones de cada serie de cada ejercicio. Hecho con ChatGPT.
+    const volumenTotal = ejercicios.reduce((total, ejercicio) => {
+        return total + (ejercicio.series?.reduce((sum, set) => sum + (set.kg * set.reps), 0) || 0);
+    }, 0);
+
+    return (
+        <>
+            <section className="Entrenamiento">
+                <div className="Entrenamiento__header">
+                    <div className="Header__titulo">
+                        <h3>{nombre}</h3>
+                        <button className='Header__boton'>
+                            <BsThreeDots size={18} onClick={onOpcionesAbiertas} />
+                        </button>
+                    </div>
+                    <div className="Header__usuario">
+                        <img className='Usuario__foto' src={Avatar} alt="Iniciales de usuario" />
+                        <div className='Usuario__info'>
+                            <p className='Usuario__info--nombre'>{usuario}</p>
+                            <p className='Usuario__info--fecha'>Hace X horas</p>
+                        </div>
+                    </div>
+                    <div className="Header__datos">
+                        <div className="Datos">
+                            <p>Duración</p>
+                            <p className='Datos__valor'>{duracion} minutos</p>
+                        </div>
+                        <div className="Datos">
+                            <p>Volumen</p>
+                            <p className='Datos__valor'>{volumenTotal} kg movidos</p>
+                        </div>
                     </div>
                 </div>
-                <div className="Header__datos">
-                    <div className="Datos">
-                        <p>Tiempo</p>
-                        <p className='Datos__valor'>58 minutos</p>
+
+                <hr style={{ color: "#D9D9D9", marginLeft: "-1rem", marginRight: "-1rem", width: "calc(100% + 2rem)" }} /> {/* Tenía el problema de cómo aplicar el padding a todos los items excepto a este hr. Sí, lo de poner márgenes negativos es una solución propuesta por ChatGPT */}
+
+                <div className="Entrenamiento__lista">
+                    <div className="Lista__header">
+                        <h4>Ejercicios realizados</h4>
+                        <button onClick={toggleLista} className='Header__boton'>
+                            <BsChevronDown className={`Chevron ${!lista ? 'girado' : ''}`} /> {/* Condicional para aplicar un estilo distinto al indicador */}
+                        </button>
                     </div>
-                    <div className="Datos">
-                        <p>Volumen</p>
-                        <p className='Datos__valor'>3200 kg movidos </p>
-                    </div>
+
+                    {lista && (
+                        <div className="Lista__ejercicios">
+                            {ejercicios.map(props => {
+                                const { _id, nombre, series } = props
+                                return (
+                                    <Ejercicio key={_id} {...props} />
+                                )
+                            })}
+                        </div>
+                    )}
                 </div>
-            </div>
-            <hr style={{color : "#D9D9D9",   marginLeft: "-1rem", marginRight: "-1rem", width: "calc(100% + 2rem)"}} /> {/* Tenía el problema de cómo aplicar el padding a todos los items excepto a este hr. Sí, lo de poner márgenes negativos es una solución propuesta por ChatGPT */}
-            <div className="Entrenamiento__lista">
-                <div className="Lista__header">
-                    <h4>Ejercicios</h4>
-                    <button onClick={toggleLista} className='Header__boton'>
-                        <BsChevronDown className={`Chevron ${!lista ? 'girado' : ''}`} />
-                    </button>
-                </div>
-                {lista && <div className="Lista__ejercicios">
-                    <Ejercicio />
-                    <Ejercicio />
-                    <Ejercicio /> {/* probablemente otro map aquí sí señor */}
-                </div>}
-            </div>
-        </section>
-    </>
+            </section>
+        </>
     )
 }
 
-const Ejercicio = () => {   
+const Ejercicio = (props) => {
+    const { nombre, series } = props //desestructuro los props para poder usarlos directamente
 
-    return(
+    return (
         <div className="Ejercicio">
             <img src={Usuario} alt="Foto del usuario" />
-            <p>1 serie de elevación lateral de mancuernas</p>
+            <p> {series.length} {series.length === 1 ? 'serie' : 'series'} de {nombre.toLowerCase()} </p> {/* // 1 serie en singular, x serieS en plural. Los ejercicios están guardados con mayúscula inicial en la bd, de ahí el toLowerCase() */}
         </div>
     )
 }

@@ -25,7 +25,7 @@
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
     animation: fadeIn 0.3s ease-out forwards;
 }
-.Opciones-boton{
+.Opciones__boton{
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -37,7 +37,7 @@
     color: #d32f2f;
     border: 1px solid #d32f2f;
 }
-.Boton-cerrar{
+.Boton__cerrar{
     all: unset;
     position: absolute;
     top: 1rem;

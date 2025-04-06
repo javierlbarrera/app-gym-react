@@ -5,12 +5,11 @@ export const Inicio = () => {
 
     return (
         <>
-            <BotonEntrenamiento/>
-{/*             <BotonEntrenamientoGuardado/>
- */}            <hr style={{color : "#D9D9D9"}} />
+            <BotonEntrenamiento />
+            <hr style={{ color: "#D9D9D9" }} />
         </>
     )
-    }
+}
 
 const BotonEntrenamiento = () => {
 
@@ -20,11 +19,11 @@ const BotonEntrenamiento = () => {
             <NavLink to="/entrenamiento-rapido">
                 <button>+ Empezar entrenamiento rápido</button>
             </NavLink>
-    </section>
+        </section>
     )
 }
 
-const BotonEntrenamientoGuardado = () => {  
+const BotonEntrenamientoGuardado = () => {
 
     return (
         <section className="Inicio">

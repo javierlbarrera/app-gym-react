@@ -35,7 +35,7 @@
     gap: 0.4em;
 }
 
-.Ejercicio-item{
+.Ejercicio__item{
     padding: 1rem;
     border: 1px solid #ddd;
     border-radius: 6px;
@@ -46,6 +46,9 @@
     transition: background-color 0.2s ease;
 }
 
-.Ejercicio-item:hover {
+.Ejercicio__item:hover {
     background-color: #efefef;
+}
+.Ejercicio__boton{
+    all: unset;
 }
