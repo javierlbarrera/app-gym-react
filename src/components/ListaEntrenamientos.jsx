@@ -29,7 +29,7 @@ export const ListaEntrenamientos = () => {
     return (
         <section className="ListaEntrenamientos">
           <h3 className="Lista__titulo">Últimos entrenamientos</h3>
-      
+
           {opciones && <Opciones onOpcionesCerradas={cerrarOpciones} /> //pasamos la función de cerrar las opciones como prop, para poder cerrarlas desde el componente Opciones
           } 
 

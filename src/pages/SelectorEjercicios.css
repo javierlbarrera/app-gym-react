@@ -36,19 +36,28 @@
 }
 
 .Ejercicio__item{
-    padding: 1rem;
-    border: 1px solid #ddd;
-    border-radius: 6px;
-    margin-bottom: 0.8rem;
-    font-size: 1rem;
-    background-color: #f9f9f9;
-    cursor: pointer;
-    transition: background-color 0.2s ease;
+    list-style: none;
+    padding: 0;
+    margin-bottom: 1rem;
+    width: 100%;
+    box-sizing: border-box;
 }
 
-.Ejercicio__item:hover {
-    background-color: #efefef;
-}
 .Ejercicio__boton{
     all: unset;
+    width: 100%;
+    display: block;
+    padding: 1rem;
+    text-align: left;
+    background-color: #eee;
+    border: none;
+    cursor: pointer;
+    font-size: 1rem;
+    border-radius: 6px;
+    box-sizing: border-box;
+    transition: background-color 0.3s ease;
+}
+
+.Ejercicio__boton:hover {
+    background-color: #ddd;
 }

@@ -1,23 +1,22 @@
 import './SelectorEjercicios.css'
-import { useState, useEffect } from 'react';
-
+import { useState, useEffect, useContext } from 'react'
+import {EntrenamientoContexto} from '../context/EntrenamientoContexto'
+import { useNavigate } from 'react-router-dom'
 
 export const SelectorEjercicios = () => {
 
-    const [ejercicios, setEjercicios] = useState([]) //state para guardar los ejercicios que vienen de la API y poder filtralos dinámicamente
+    const [listaEjercicios, setListaEjercicios] = useState([]) //state para guardar los ejercicios que vienen de la API y poder filtralos dinámicamente
     const [terminoBusqueda, setTerminoBusqueda] = useState('') //state para guardar el valor del input de la búsqueda (como en clase :) )
     const [grupoMuscular, setGrupoMuscular] = useState('') //state para guardar el valor del select de grupo muscular 
+    const { añadirEjercicio } = useContext(EntrenamientoContexto)
+    const navigate = useNavigate()
 
     const recibirEjercicios = async () => {
         const response = await fetch('http://localhost:3000/ejercicios')
         const datos = await response.json()
-        setEjercicios(datos)
+        setListaEjercicios(datos)
         console.log(datos) 
     }
-
-    useEffect(() => {
-        recibirEjercicios()
-    }, [])    
 
     const inputChange = (e) => {
         setTerminoBusqueda(e.target.value.toLowerCase()) // aquí también lo convierto a minúsculas por si acaso
@@ -26,6 +25,19 @@ export const SelectorEjercicios = () => {
     const selectChange = (e) => {
         setGrupoMuscular(e.target.value.toLowerCase())
     }
+
+    const handleClick = ({_id, nombre}) => { // Con esta función añado el ejercicio al state de entrenamiento (en el contexto) y redirijo a la página de entrenamiento
+        añadirEjercicio({
+            id : _id, 
+            nombre : nombre, 
+            series : [{peso : 0, repeticiones : 0}]
+        })
+        navigate('/entrenamiento-rapido') 
+    }
+
+    useEffect(() => {
+        recibirEjercicios()
+    }, [])   
 
     return (
         <section className="Selector__container">
@@ -48,18 +60,18 @@ export const SelectorEjercicios = () => {
 
             <ul className="Selector__lista">
 
-                { ejercicios.length === 0 ? (
+                { listaEjercicios.length === 0 ? (
                     <li className="Ejercicio__item">
                         <p>No hay ejercicios disponibles</p>
                     </li>
                 ) : (
                     // Aquí filtro los ejercicios por el nombre que contiene el input de la búsqueda. Los ejercicios ya están guardados en el state así que no se hacen varias llamadas a la API
-                    ejercicios 
+                    listaEjercicios 
                     .filter((eachEjercicio) => eachEjercicio.nombre.toLowerCase().includes(terminoBusqueda))
                     .filter((eachEjercicio) => eachEjercicio.grupoMuscular.toLowerCase().includes(grupoMuscular)) // Aquí filtro por el grupo muscular que selecciono en el select
                     .map((eachEjercicio) => (
                         <li className="Ejercicio__item" key={eachEjercicio._id}>
-                            <button className='Ejercicio__boton'>{eachEjercicio.nombre}</button>
+                            <button className='Ejercicio__boton' onClick={()=>handleClick(eachEjercicio._id, eachEjercicio.nombre)} >{eachEjercicio.nombre}</button>
                         </li>
                     ))
                 )
