@@ -1,11 +1,21 @@
 import './EntrenamientoRapido.css'
 import { NavLink } from 'react-router-dom'
-import { useState, useEffect, useContext } from 'react'
+import { useContext } from 'react'
 import { EntrenamientoContexto } from '../context/EntrenamientoContexto.jsx'
+import { Ejercicio } from '../components/Ejercicio.jsx'
 
 export const EntrenamientoRapido = () => {
 
     const { ejercicios } = useContext(EntrenamientoContexto) // Aquí estoy usando el contexto para importar el state
+
+    const totalVolumen = ejercicios.reduce((total, ejercicio) => { //suma el volumen de cada ejercicio para sacar el total. ChatGPT.
+        const volumenEjercicio = ejercicio.series.reduce((subtotal, serie) => {
+          const peso = parseFloat(serie.peso) || 0
+          const reps = parseFloat(serie.repeticiones) || 0
+          return subtotal + peso * reps
+        }, 0)
+        return total + volumenEjercicio
+      }, 0)
 
     return (
         <>
@@ -20,7 +30,7 @@ export const EntrenamientoRapido = () => {
                     </div>
                     <div className="Datos">
                         <p>Volumen</p>
-                        <p className='Datos__valor'>3200 kg movidos </p>
+                        <p className='Datos__valor'>{totalVolumen} kg movidos </p>
                     </div>
                 </div>
             </section>
@@ -33,36 +43,24 @@ export const EntrenamientoRapido = () => {
                     </>
                 ) : (
                     <>
-                        {ejercicios.map((ejercicio, index) => (
-                            <div key={index}>
-                                <p>{ejercicio.nombre}</p>
-                                <table className='TablaSeries'>
-                                    <thead>
-                                        <tr><th>Serie</th><th>KG</th><th>Repeticiones</th></tr>
-                                    </thead>
-                                    <tbody>
-                                        {ejercicio.series.map((s, i) => (
-                                            <tr key={i}>
-                                                <td>{i + 1}</td>
-                                                <td>{s.peso}</td>
-                                                <td>{s.repeticiones}</td>
-                                            </tr>
-                                        ))}
-                                    </tbody>
-                                </table>
-                                <button>+ Añade una serie</button>
-                            </div>
+                        {ejercicios.map(eachEjercicio => (
+                            <Ejercicio key={eachEjercicio._id} {...eachEjercicio} />
                         ))}
                     </>
                 )}
             </section>
 
 
-            <NavLink to="/selector-ejercicios">
-                <button>
-                    + Añade un ejercicio
+            <div className='EntrenamientoRapido__botones'>
+                <NavLink to="/selector-ejercicios">
+                    <button>
+                        + Añade un ejercicio
+                    </button>
+                </NavLink>
+                <button className='Boton__final'> 
+                    ✓ Terminar entrenamiento
                 </button>
-            </NavLink>
+            </div>
         </>
     )
 }

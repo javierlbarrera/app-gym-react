@@ -8,14 +8,15 @@ export const SelectorEjercicios = () => {
     const [listaEjercicios, setListaEjercicios] = useState([]) //state para guardar los ejercicios que vienen de la API y poder filtralos dinámicamente
     const [terminoBusqueda, setTerminoBusqueda] = useState('') //state para guardar el valor del input de la búsqueda (como en clase :) )
     const [grupoMuscular, setGrupoMuscular] = useState('') //state para guardar el valor del select de grupo muscular 
-    const { añadirEjercicio } = useContext(EntrenamientoContexto)
+    const { añadirEjercicio, ejercicios } = useContext(EntrenamientoContexto)
     const navigate = useNavigate()
+
+    console.log({listaEjercicios})
 
     const recibirEjercicios = async () => {
         const response = await fetch('http://localhost:3000/ejercicios')
         const datos = await response.json()
         setListaEjercicios(datos)
-        console.log(datos) 
     }
 
     const inputChange = (e) => {
@@ -26,11 +27,12 @@ export const SelectorEjercicios = () => {
         setGrupoMuscular(e.target.value.toLowerCase())
     }
 
-    const handleClick = ({_id, nombre}) => { // Con esta función añado el ejercicio al state de entrenamiento (en el contexto) y redirijo a la página de entrenamiento
+    const handleClick = (_id, nombre, series) => { // Con esta función añado el ejercicio al state de entrenamiento (en el contexto) y redirijo a la página de entrenamiento
         añadirEjercicio({
-            id : _id, 
-            nombre : nombre, 
-            series : [{peso : 0, repeticiones : 0}]
+            _id,
+            nombre,
+            series : [{peso : '', repeticiones : ''}],
+            editando : true // lo muestra en modo de edición por defecto
         })
         navigate('/entrenamiento-rapido') 
     }
@@ -71,7 +73,7 @@ export const SelectorEjercicios = () => {
                     .filter((eachEjercicio) => eachEjercicio.grupoMuscular.toLowerCase().includes(grupoMuscular)) // Aquí filtro por el grupo muscular que selecciono en el select
                     .map((eachEjercicio) => (
                         <li className="Ejercicio__item" key={eachEjercicio._id}>
-                            <button className='Ejercicio__boton' onClick={()=>handleClick(eachEjercicio._id, eachEjercicio.nombre)} >{eachEjercicio.nombre}</button>
+                            <button className='Ejercicio__boton' onClick={()=>handleClick(eachEjercicio._id, eachEjercicio.nombre, eachEjercicio.series)} >{eachEjercicio.nombre}</button>
                         </li>
                     ))
                 )

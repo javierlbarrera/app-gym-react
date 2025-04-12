@@ -1,0 +1,123 @@
+.ListaEjercicios__Ejercicio {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8em;
+    border: 1px solid #333;
+    border-radius: 6px;
+    padding: 1em;
+    position: relative;
+    width: 100%;
+}
+
+.EjercicioTitulo {
+    font-weight: 600;
+    font-size: 1.2rem;
+}
+
+.EjercicioTitulo.bloqueado {
+    opacity: 0.5;
+}
+
+.Boton__cerrar {
+    all: unset;
+    cursor: pointer;
+    background-color: #f44336;
+    color: white;
+    position: absolute;
+    top: 0.4em;
+    right: 0.4em;
+    padding: 0.3em 0.4em;
+    border-radius: 4px;
+    font-size: 0.95rem;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.6rem;
+    height: 1.6rem;
+    transition: background-color 0.2s ease;
+}
+
+.Boton__cerrar:hover {
+    background-color: #d32f2f;
+}
+
+.TablaSeries {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+.TablaSeries.bloqueado {
+    pointer-events: none;
+    opacity: 0.5;
+}
+
+.TablaSeries th,
+.TablaSeries td {
+    padding: 0.75rem 1rem;
+    text-align: center;
+    border-bottom: 1px solid #eee;
+    font-size: 0.95rem;
+    color: #333;
+}
+
+.TablaSeries th {
+    background-color: #f4f4f4;
+    font-weight: 600;
+}
+
+.TablaSeries tr:last-child td {
+    border-bottom: none;
+}
+
+.TablaSeries input {
+    width: 100%;
+    padding: 0.4em 0.6em;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 0.95rem;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.TablaSeries input:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.2);
+    outline: none;
+}
+
+.Boton__quitarSerie {
+    all: unset;
+    cursor: pointer;
+    background-color: #f44336;
+    color: white;
+    border-radius: 4px;
+    width: 1.4rem;
+    height: 1.4rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s ease;
+}
+
+.Boton__quitarSerie:hover:enabled {
+    background-color: #d32f2f;
+}
+
+.Boton__quitarSerie:disabled {
+    opacity: 0.5;
+    cursor: default;
+    background-color: #f44336;
+    /* stays the same */
+}
+
+.Boton__finalizar {
+    background-color: #4caf50;
+}
+
+.Boton__finalizar:hover {
+    background-color: #388e3c;
+}
