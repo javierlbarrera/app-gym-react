@@ -1,7 +1,6 @@
 import React, { useContext, useState } from 'react'
 import { EntrenamientoContexto } from '../context/EntrenamientoContexto'
-import './Ejercicio.css' 
-import { BsTrash3 } from "react-icons/bs"
+import './Ejercicio.css'
 
 export const Ejercicio = (props) => {
 

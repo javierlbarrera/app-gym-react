@@ -5,7 +5,7 @@ import { BsPencilSquare } from "react-icons/bs";
 import { BsXLg } from "react-icons/bs";
 
 
-export const Opciones = ({onOpcionesCerradas}) => { //no conseguía hacerlo funcionar hasta que puse el prop entre llaves
+export const Opciones = ({onOpcionesCerradas, onEliminar }) => { //no conseguía hacerlo funcionar hasta que puse el prop entre llaves
 
     useEffect(() => { //un useEffect para cerrar las opciones al pulsar la tecla escape. Añade un addeventListener a las opciones y lo elimina al cerrarlas
         const handleKeyDown = (e) => {
@@ -28,10 +28,7 @@ export const Opciones = ({onOpcionesCerradas}) => { //no conseguía hacerlo func
             <button className="Opciones__boton">
                 <BsPencilSquare style={{strokeWidth : 0.4}} /> Editar entrenamiento
             </button>
-            <button className="Opciones__boton">
-                <BsDownload style={{strokeWidth : 0.8}} /> Guardar entrenamiento
-            </button>
-            <button className="Opciones__boton Peligro">
+            <button className="Opciones__boton Peligro" onClick={onEliminar}>
                 <BsXLg style={{strokeWidth : 0.8}} /> Eliminar entrenamiento
             </button>
             <button className="Boton__cerrar" onClick={onOpcionesCerradas}>

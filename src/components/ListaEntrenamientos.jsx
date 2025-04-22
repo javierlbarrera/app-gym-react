@@ -7,6 +7,7 @@ export const ListaEntrenamientos = () => {
 
     const [entrenamientos, setEntrenamientos] = useState([])
     const [opciones, setOpciones] = useState(false)
+    const [entrenamientoSeleccionado, setEntrenamientoSeleccionado] = useState(null)
 
     const pedirEntrenamientos = async () => {
         const response = await fetch('http://localhost:3000/entrenamientos')
@@ -14,8 +15,15 @@ export const ListaEntrenamientos = () => {
         setEntrenamientos(datos)
     }
 
-    const abrirOpciones = () => {
-        setOpciones(true)
+    const eliminarEntrenamiento = async ()=>{
+      await fetch(`http://localhost:3000/entrenamientos/${entrenamientoSeleccionado}`, {method : 'DELETE'})
+      cerrarOpciones() //cierra las opciones después del delete
+      pedirEntrenamientos() // y refresca la lista actualizada
+    }
+
+    const abrirOpciones = (id) => {
+      setEntrenamientoSeleccionado(id)
+      setOpciones(true)
     }
 
     const cerrarOpciones = () => {
@@ -30,7 +38,7 @@ export const ListaEntrenamientos = () => {
         <section className="ListaEntrenamientos">
           <h3 className="Lista__titulo">Últimos entrenamientos</h3>
 
-          {opciones && <Opciones onOpcionesCerradas={cerrarOpciones} /> //pasamos la función de cerrar las opciones como prop, para poder cerrarlas desde el componente Opciones
+          {opciones && <Opciones onOpcionesCerradas={cerrarOpciones} onEliminar={eliminarEntrenamiento} /> //pasamos la función de cerrar las opciones como prop, para poder cerrarlas desde el componente Opciones
           } 
 
           {entrenamientos.length === 0 ? (
@@ -41,7 +49,7 @@ export const ListaEntrenamientos = () => {
           ) : (
             <>
               {entrenamientos.map(eachEntrenamiento => (
-                <Entrenamiento key={eachEntrenamiento._id} {...eachEntrenamiento} onOpcionesAbiertas={abrirOpciones} /> /* pasamos props y la función de abrirOpciones */
+                <Entrenamiento key={eachEntrenamiento._id} {...eachEntrenamiento} onOpcionesAbiertas={()=>abrirOpciones(eachEntrenamiento._id)} /> /* pasamos props y la función de abrirOpciones */
               ))}
             </>
           )}

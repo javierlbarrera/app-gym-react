@@ -1,12 +1,21 @@
 import './EntrenamientoRapido.css'
 import { NavLink } from 'react-router-dom'
-import { useContext } from 'react'
+import { useContext, useEffect } from 'react'
 import { EntrenamientoContexto } from '../context/EntrenamientoContexto.jsx'
 import { Ejercicio } from '../components/Ejercicio.jsx'
+import { useNavigate } from 'react-router-dom'
 
 export const EntrenamientoRapido = () => {
 
-    const { ejercicios } = useContext(EntrenamientoContexto) // Aquí estoy usando el contexto para importar el state
+    const { ejercicios, horaInicio } = useContext(EntrenamientoContexto) // Aquí estoy usando el contexto para importar dos estados
+    const navigate = useNavigate()
+
+    let duracion = Math.round((Date.now() - horaInicio) / 60000) //La hora de inicio se guarda en el contexto al iniciar el entrenamiento, y al guardar el entrenamiento se resta a la hora a la que se ha guardado
+
+    useEffect(()=>{
+        console.clear()
+        console.log(duracion)
+    },[])
 
     const totalVolumen = ejercicios.reduce((total, ejercicio) => { //suma el volumen de cada ejercicio para sacar el total. ChatGPT.
         const volumenEjercicio = ejercicio.series.reduce((subtotal, serie) => {
@@ -17,6 +26,29 @@ export const EntrenamientoRapido = () => {
         return total + volumenEjercicio
       }, 0)
 
+    const guardarEntrenamiento  = async ()=>{
+        // try catch finally 
+        const entrenamiento = {
+            nombre : 'Entrenamiento rápido',
+            usuario : 'Usuario de prueba',
+            volumen : totalVolumen,
+            duracion,
+            ejercicios,
+        }
+
+        const peticion = await fetch('http://localhost:3000/entrenamientos', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(entrenamiento)
+        })
+        const datos = await peticion.json()
+
+        navigate ('/')
+    }
+
+
     return (
         <>
             <header>
@@ -26,7 +58,7 @@ export const EntrenamientoRapido = () => {
                 <div className="Datos_container">
                     <div className="Datos">
                         <p>Tiempo</p>
-                        <p className='Datos__valor'>58 minutos</p>
+                        <p className='Datos__valor'>X minutos</p>
                     </div>
                     <div className="Datos">
                         <p>Volumen</p>
@@ -52,12 +84,12 @@ export const EntrenamientoRapido = () => {
 
 
             <div className='EntrenamientoRapido__botones'>
-                <NavLink to="/selector-ejercicios">
+                <NavLink to="/selector-ejercicios"> {/* cambiar a navigate */}
                     <button>
                         + Añade un ejercicio
                     </button>
                 </NavLink>
-                <button className='Boton__final'> 
+                <button className='Boton__final' onClick={guardarEntrenamiento}> 
                     ✓ Terminar entrenamiento
                 </button>
             </div>

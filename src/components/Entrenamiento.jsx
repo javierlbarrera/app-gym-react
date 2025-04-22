@@ -13,12 +13,27 @@ export const Entrenamiento = (props) => {
         setLista(!lista)
     }
 
-    const { nombre, usuario, fecha, duracion, ejercicios, onOpcionesAbiertas } = props //desestructuro los props, que incluyen la función abrirOpciones pasada desde ListaEntrenamientos
+    const { nombre, usuario, updatedAt, duracion, volumen, ejercicios, onOpcionesAbiertas } = props //desestructuro los props, que incluyen la función abrirOpciones pasada desde ListaEntrenamientos
 
-    //aquí quería calcular el volumen total de cada entrenamiento, multiplicando los kg x las repeticiones de cada serie de cada ejercicio. Hecho con ChatGPT.
-    const volumenTotal = ejercicios.reduce((total, ejercicio) => {
-        return total + (ejercicio.series?.reduce((sum, set) => sum + (set.kg * set.reps), 0) || 0);
-    }, 0);
+    console.log(duracion)
+
+    // desde Mongoose mando los timestamps, que usaré para calcular hace cuánto se ha creado el entrenamiento. los he recibido arriba.
+
+    const tiempoDesde = (updatedAt) => { //la lógica de la función para cuándo mostrar "hace x min" o "hace x horas" la he hecho con ChatGPT.
+        const updatedDate = new Date(updatedAt)
+        const now = new Date()
+        const diffMs = now - updatedDate
+        const diffMins = Math.floor(diffMs / 60000)
+        const diffHours = Math.floor(diffMins / 60)
+        const diffDays = Math.floor(diffHours / 24)
+      
+        if (diffMins < 1) return 'Justo ahora'
+        if (diffMins < 60) return `Hace ${diffMins} minutos`
+        if (diffHours < 24) return `Hace ${diffHours} horas`
+        if (diffDays === 1) return 'Ayer'
+        return `Hace ${diffDays} días`
+    }
+
 
     return (
         <>
@@ -34,7 +49,7 @@ export const Entrenamiento = (props) => {
                         <img className='Usuario__foto' src={Avatar} alt="Iniciales de usuario" />
                         <div className='Usuario__info'>
                             <p className='Usuario__info--nombre'>{usuario}</p>
-                            <p className='Usuario__info--fecha'>Hace X horas</p>
+                            <p className='Usuario__info--fecha'>{tiempoDesde(updatedAt)}</p>
                         </div>
                     </div>
                     <div className="Header__datos">
@@ -44,7 +59,7 @@ export const Entrenamiento = (props) => {
                         </div>
                         <div className="Datos">
                             <p>Volumen</p>
-                            <p className='Datos__valor'>{volumenTotal} kg movidos</p>
+                            <p className='Datos__valor'>{volumen} kg movidos</p>
                         </div>
                     </div>
                 </div>

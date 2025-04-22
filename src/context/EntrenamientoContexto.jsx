@@ -1,12 +1,12 @@
-import {createContext, useState} from "react"
+import { createContext, useEffect, useState } from "react"
 
 export const EntrenamientoContexto = createContext()
 
 export const EntrenamientoProvider = ({ children }) => {
   const [ejercicios, setEjercicios] = useState([])
+  const [horaInicio, setHoraInicio] = useState(null) //un estado para guardar la hora de inicio que se calcula al finalizar el entrenamiento.
 
-  console.log(ejercicios)
-  
+
   const añadirEjercicio = (ejercicio) => { // Función para añadir un ejercicio al estado. Pregunté a ChatGPT cómo hacerlo, de ahí el prev 
     setEjercicios((prev) => [...prev, ejercicio])
   }
@@ -26,14 +26,14 @@ export const EntrenamientoProvider = ({ children }) => {
     // Recibe el id del ejercicio y el nuevo array de series.
     setEjercicios(prev => //coge los valores previos
       prev.map(eachEjercicio => // les hace un map
-        eachEjercicio._id === _id ? { ...eachEjercicio, series: nuevasSeries } : eachEjercicio 
+        eachEjercicio._id === _id ? { ...eachEjercicio, series: nuevasSeries } : eachEjercicio
         // si el id coincide, actualiza el ejercicio con el nuevo array de series. Si no, lo deja igual.
       )
     )
   }
 
   return (
-    <EntrenamientoContexto.Provider value={{ ejercicios, añadirEjercicio, eliminarEjercicio, actualizarEjercicio, actualizarSeries }}>
+    <EntrenamientoContexto.Provider value={{ ejercicios, horaInicio, setHoraInicio, añadirEjercicio, eliminarEjercicio, actualizarEjercicio, actualizarSeries }}>
       {children}
     </EntrenamientoContexto.Provider>
   )
