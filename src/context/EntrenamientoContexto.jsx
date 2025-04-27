@@ -5,7 +5,10 @@ export const EntrenamientoContexto = createContext()
 export const EntrenamientoProvider = ({ children }) => {
   const [ejercicios, setEjercicios] = useState([])
   const [horaInicio, setHoraInicio] = useState(null) //un estado para guardar la hora de inicio que se calcula al finalizar el entrenamiento.
-
+  //el PUT usará la misma pantalla que el POST, por lo que necesita states para mostrar contenido/hacer el fetch de manera condicional
+  const [modoEdicion, setModoEdicion] = useState(false)
+  const [idEntrenamiento, setIdEntrenamiento] = useState(null)
+  const [duracionEntrenamiento, setDuracionEntrenamiento] = useState(0)
 
   const añadirEjercicio = (ejercicio) => { // Función para añadir un ejercicio al estado. Pregunté a ChatGPT cómo hacerlo, de ahí el prev 
     setEjercicios((prev) => [...prev, ejercicio])
@@ -33,7 +36,7 @@ export const EntrenamientoProvider = ({ children }) => {
   }
 
   return (
-    <EntrenamientoContexto.Provider value={{ ejercicios, horaInicio, setHoraInicio, añadirEjercicio, eliminarEjercicio, actualizarEjercicio, actualizarSeries }}>
+    <EntrenamientoContexto.Provider value={{ ejercicios, modoEdicion, idEntrenamiento, horaInicio, duracionEntrenamiento, setEjercicios, setDuracionEntrenamiento, setHoraInicio, añadirEjercicio, eliminarEjercicio, actualizarEjercicio, actualizarSeries, setModoEdicion, setIdEntrenamiento }}>
       {children}
     </EntrenamientoContexto.Provider>
   )

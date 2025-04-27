@@ -1,53 +1,75 @@
 import './EntrenamientoRapido.css'
 import { NavLink } from 'react-router-dom'
-import { useContext, useEffect } from 'react'
+import { useContext, useState, useEffect } from 'react'
 import { EntrenamientoContexto } from '../context/EntrenamientoContexto.jsx'
 import { Ejercicio } from '../components/Ejercicio.jsx'
 import { useNavigate } from 'react-router-dom'
 
 export const EntrenamientoRapido = () => {
 
-    const { ejercicios, horaInicio } = useContext(EntrenamientoContexto) // Aquí estoy usando el contexto para importar dos estados
+    const [tiempoActual, setTiempoActual] = useState(0)
+    const { ejercicios, horaInicio, modoEdicion, duracionEntrenamiento, idEntrenamiento, setEjercicios, setHoraInicio, setModoEdicion, setIdEntrenamiento } = useContext(EntrenamientoContexto)
     const navigate = useNavigate()
 
-    let duracion = Math.round((Date.now() - horaInicio) / 60000) //La hora de inicio se guarda en el contexto al iniciar el entrenamiento, y al guardar el entrenamiento se resta a la hora a la que se ha guardado
-
-    useEffect(()=>{
-        console.clear()
-        console.log(duracion)
-    },[])
+    const duracion = modoEdicion ? duracionEntrenamiento : Math.round(tiempoActual / 60000) // si el modo de edición está activo, la duración es la que se pasa desde el contexto. Si no, es la calculada con el timer creado en el useEffect.
 
     const totalVolumen = ejercicios.reduce((total, ejercicio) => { //suma el volumen de cada ejercicio para sacar el total. ChatGPT.
         const volumenEjercicio = ejercicio.series.reduce((subtotal, serie) => {
-          const peso = parseFloat(serie.peso) || 0
-          const reps = parseFloat(serie.repeticiones) || 0
-          return subtotal + peso * reps
+            const peso = parseFloat(serie.peso) || 0
+            const reps = parseFloat(serie.repeticiones) || 0
+            return subtotal + peso * reps
         }, 0)
         return total + volumenEjercicio
-      }, 0)
+    }, 0)
 
-    const guardarEntrenamiento  = async ()=>{
-        // try catch finally 
+    const guardarEntrenamiento = async () => { //hace POST o PUT dependiendo del estado importado del contexto 
         const entrenamiento = {
-            nombre : 'Entrenamiento rápido',
-            usuario : 'Usuario de prueba',
-            volumen : totalVolumen,
+            nombre: 'Entrenamiento rápido',
+            usuario: 'Usuario de prueba',
+            volumen: totalVolumen,
             duracion,
             ejercicios,
         }
 
-        const peticion = await fetch('http://localhost:3000/entrenamientos', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(entrenamiento)
-        })
-        const datos = await peticion.json()
+        const url = modoEdicion // si el modo de edición está activo, significa que se va a editar un entrenamiento ya guardado, por lo que la URL será diferente
+            ? `http://localhost:3000/entrenamientos/${idEntrenamiento}`
+            : 'http://localhost:3000/entrenamientos'
 
-        navigate ('/')
+        const method = modoEdicion ? 'PUT' : 'POST' // si el modo de edición está activo, se hace un PUT, si no, un POST
+
+        try {
+            await fetch(url, {
+                method,
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(entrenamiento),
+            })
+        } catch (error) {
+            console.error('Error al guardar el entrenamiento:', error)
+        } finally {
+
+            // Limpieza después de guardar
+            setEjercicios([])
+            setHoraInicio(null)
+            setModoEdicion(false)
+            setIdEntrenamiento(null)
+
+            navigate('/inicio')
+        }
     }
 
+    useEffect(() => { // useEffect para mostrar en la app el tiempo transcurrido desde que se inició el entrenamiento. Se ejecuta cada segundo y solo si no está en modo de edición.
+        if (horaInicio) {
+            const intervalo = setInterval(() => {
+                const ahora = Date.now()
+                const diferencia = ahora - horaInicio
+                setTiempoActual(diferencia)
+            }, 1000)
+
+            return () => clearInterval(intervalo) // Limpiamos al salir
+        }
+    }, [horaInicio])
 
     return (
         <>
@@ -57,8 +79,21 @@ export const EntrenamientoRapido = () => {
             <section className="EntrenamientoRapido__datos">
                 <div className="Datos_container">
                     <div className="Datos">
-                        <p>Tiempo</p>
-                        <p className='Datos__valor'>X minutos</p>
+                        {modoEdicion ? ( // si el modo de edición está activo, solo muestra la duración del entrenamiento y no el timer. muy complicado si no
+                            <>
+                                <p>Duración</p>
+                                <p className="Datos__valor">
+                                    {duracion} {duracion === 1 ? 'minuto' : 'minutos'}
+                                </p>
+                            </>
+                        ) : (
+                            <>
+                                <p>Tiempo</p>
+                                <p className="Datos__valor">
+                                    {Math.floor(tiempoActual / 3600000)}h {Math.floor((tiempoActual % 3600000) / 60000)}m {Math.floor((tiempoActual % 60000) / 1000)}s
+                                </p>
+                            </>
+                        )}
                     </div>
                     <div className="Datos">
                         <p>Volumen</p>
@@ -82,15 +117,14 @@ export const EntrenamientoRapido = () => {
                 )}
             </section>
 
-
             <div className='EntrenamientoRapido__botones'>
-                <NavLink to="/selector-ejercicios"> {/* cambiar a navigate */}
+                <NavLink to="/selector-ejercicios"> {/* cambiar a navigate ? */}
                     <button>
                         + Añade un ejercicio
                     </button>
                 </NavLink>
-                <button className='Boton__final' onClick={guardarEntrenamiento}> 
-                    ✓ Terminar entrenamiento
+                <button className='Boton__final' onClick={guardarEntrenamiento}>
+                    {modoEdicion ? '✓ Guardar cambios' : '✓ Terminar entrenamiento'} {/* el texto cambia dependiendo de si es PUT o POST */}
                 </button>
             </div>
         </>

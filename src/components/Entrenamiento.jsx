@@ -2,20 +2,18 @@ import './Entrenamiento.css'
 import { BsChevronDown } from "react-icons/bs"
 import { BsThreeDots } from "react-icons/bs"
 import Avatar from '../assets/Avatar.svg'
-import Usuario from '../assets/Usuario.png'
+import EjercicioImagen from '../assets/EjercicioImagen.jpg'
 import { useState } from 'react'
 
 export const Entrenamiento = (props) => {
 
-    const [lista, setLista] = useState(false)
+    const [lista, setLista] = useState(false) // state para mostrar u ocultar la lista de ejercicios. Inicialmente está oculta.
 
     const toggleLista = () => {
         setLista(!lista)
     }
 
-    const { nombre, usuario, updatedAt, duracion, volumen, ejercicios, onOpcionesAbiertas } = props //desestructuro los props, que incluyen la función abrirOpciones pasada desde ListaEntrenamientos
-
-    console.log(duracion)
+    const { nombre, usuario, updatedAt, duracion, volumen, ejercicios, onOpcionesAbiertas } = props //desestructuro los props recibidos desde ListaEntrenamientos
 
     // desde Mongoose mando los timestamps, que usaré para calcular hace cuánto se ha creado el entrenamiento. los he recibido arriba.
 
@@ -28,10 +26,10 @@ export const Entrenamiento = (props) => {
         const diffDays = Math.floor(diffHours / 24)
       
         if (diffMins < 1) return 'Justo ahora'
-        if (diffMins < 60) return `Hace ${diffMins} minutos`
-        if (diffHours < 24) return `Hace ${diffHours} horas`
+        if (diffMins < 60) return `Hace ${diffMins} ${diffMins === 1 ? 'minuto' : 'minutos'}`
+        if (diffHours < 24) return `Hace ${diffHours} ${diffHours === 1 ? 'hora' : 'horas'}`
         if (diffDays === 1) return 'Ayer'
-        return `Hace ${diffDays} días`
+        return `Hace ${diffDays} ${diffDays === 1 ? 'día' : 'días'}`
     }
 
 
@@ -55,7 +53,9 @@ export const Entrenamiento = (props) => {
                     <div className="Header__datos">
                         <div className="Datos">
                             <p>Duración</p>
-                            <p className='Datos__valor'>{duracion} minutos</p>
+                            <p className='Datos__valor'>
+                                {duracion} {duracion === 1 ? 'minuto' : 'minutos'} {/* 1 minuto en singular, x minutos en plural */}
+                            </p>
                         </div>
                         <div className="Datos">
                             <p>Volumen</p>
@@ -76,10 +76,9 @@ export const Entrenamiento = (props) => {
 
                     {lista && (
                         <div className="Lista__ejercicios">
-                            {ejercicios.map(props => {
-                                const { _id, nombre, series } = props
+                            {ejercicios.map(eachEjercicio => {
                                 return (
-                                    <Ejercicio key={_id} {...props} />
+                                    <Ejercicio key={eachEjercicio._id} {...eachEjercicio} />
                                 )
                             })}
                         </div>
@@ -95,7 +94,7 @@ const Ejercicio = (props) => {
 
     return (
         <div className="Ejercicio">
-            <img src={Usuario} alt="Foto del usuario" />
+            <img src={EjercicioImagen} alt="Foto del ejercicio" />
             <p> {series.length} {series.length === 1 ? 'serie' : 'series'} de {nombre.toLowerCase()} </p> {/* // 1 serie en singular, x serieS en plural. Los ejercicios están guardados con mayúscula inicial en la bd, de ahí el toLowerCase() */}
         </div>
     )

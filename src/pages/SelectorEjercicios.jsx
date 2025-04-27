@@ -11,8 +11,6 @@ export const SelectorEjercicios = () => {
     const { añadirEjercicio, ejercicios } = useContext(EntrenamientoContexto)
     const navigate = useNavigate()
 
-    console.log({listaEjercicios})
-
     const recibirEjercicios = async () => {
         const response = await fetch('http://localhost:3000/ejercicios')
         const datos = await response.json()

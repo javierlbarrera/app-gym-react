@@ -1,5 +1,4 @@
 import './Inicio.css'
-import { NavLink } from 'react-router-dom'
 import { useContext } from 'react'
 import { EntrenamientoContexto } from '../context/EntrenamientoContexto.jsx'
 import { useNavigate } from 'react-router-dom'
@@ -16,12 +15,13 @@ export const Inicio = () => {
 
 const BotonEntrenamiento = () => {
 
-    const {setHoraInicio} = useContext(EntrenamientoContexto)// Aquí estoy usando el contexto para importar el state de la hora de inicio
+    const {setHoraInicio, setEjercicios} = useContext(EntrenamientoContexto)// Aquí estoy usando el contexto para importar los setters de la hora de inicio
     const navigate = useNavigate()
 
     const iniciarEntrenamiento = () => { //Al iniciar el entrenamiento se guarda la hora de inicio en el contexto y se navega a la página de entrenamiento rápido
+        setEjercicios([]) //se limpia el contexto de ejercicios al hacer clic en el botón de iniciar un entrenamiento
         setHoraInicio(Date.now())
-        navigate("/entrenamiento-rapido");
+        navigate("/entrenamiento-rapido")
     }
 
     return (
@@ -31,15 +31,3 @@ const BotonEntrenamiento = () => {
         </section>
     )
 }
-
-/* const BotonEntrenamientoGuardado = () => {
-
-    return (
-        <section className="Inicio">
-            <h3>Entrenamientos guardados</h3>
-            <button>
-                + Empezar entrenamiento guardado
-            </button>
-        </section>
-    )
-} */

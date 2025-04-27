@@ -1,0 +1,62 @@
+.FormularioLogin {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+    background-color: #ffffff;
+}
+
+.FormularioLogin__contenido {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 400px;
+}
+
+.FormularioLogin__contenido h2 {
+    margin-bottom: 20px;
+    font-size: 24px;
+    color: #333;
+    text-align: center;
+}
+
+.FormularioLogin__contenido form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    width: 100%;
+    background: white;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.FormularioLogin__contenido input {
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 16px;
+    outline: none;
+    transition: border-color 0.3s;
+}
+
+.FormularioLogin__contenido input:focus {
+    border-color: #007bff;
+}
+
+.FormularioLogin__contenido button {
+    padding: 12px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.FormularioLogin__contenido button:hover {
+    background-color: #0056b3;
+}
