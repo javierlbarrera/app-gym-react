@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router-dom'
 
 export const EntrenamientoRapido = () => {
 
+    const {VITE_EXPRESS_URL} = import.meta.env
     const [tiempoActual, setTiempoActual] = useState(0)
     const { ejercicios, horaInicio, modoEdicion, duracionEntrenamiento, idEntrenamiento, setEjercicios, setHoraInicio, setModoEdicion, setIdEntrenamiento } = useContext(EntrenamientoContexto)
     const navigate = useNavigate()
@@ -32,8 +33,8 @@ export const EntrenamientoRapido = () => {
         }
 
         const url = modoEdicion // si el modo de edición está activo, significa que se va a editar un entrenamiento ya guardado, por lo que la URL será diferente
-            ? `http://localhost:3000/entrenamientos/${idEntrenamiento}`
-            : 'http://localhost:3000/entrenamientos'
+            ? `${VITE_EXPRESS_URL}/entrenamientos/${idEntrenamiento}`
+            : `${VITE_EXPRESS_URL}/entrenamientos`
 
         const method = modoEdicion ? 'PUT' : 'POST' // si el modo de edición está activo, se hace un PUT, si no, un POST
 

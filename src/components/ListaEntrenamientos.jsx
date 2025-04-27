@@ -7,6 +7,8 @@ import { Opciones } from './Opciones.jsx'
 
 export const ListaEntrenamientos = () => {
 
+  const {VITE_EXPRESS_URL} = import.meta.env
+
   const [entrenamientos, setEntrenamientos] = useState([]) //state para guardar los entrenamientos que vienen de la API
   const [opciones, setOpciones] = useState(false) //state para abrir y cerrar el menú de opciones (con editar y eliminar) de cada entrenamiento
   const [entrenamientoSeleccionado, setEntrenamientoSeleccionado] = useState(null) //state para guardar el ID pasado desde la lista de entrenamientos. Sirve para el PUT y el DELETE
@@ -14,19 +16,19 @@ export const ListaEntrenamientos = () => {
   const navigate = useNavigate()
 
   const pedirEntrenamientos = async () => { //hace un fetch a la API para conseguir los entrenamientos guardados y los guarda en el state
-    const response = await fetch('http://localhost:3000/entrenamientos')
+    const response = await fetch(`${VITE_EXPRESS_URL}/entrenamientos`)
     const datos = await response.json()
     setEntrenamientos(datos)
   }
 
   const eliminarEntrenamiento = async () => { //hace un fetch a la API para eliminar el entrenamiento seleccionado.
-    await fetch(`http://localhost:3000/entrenamientos/${entrenamientoSeleccionado}`, { method: 'DELETE' })
+    await fetch(`${VITE_EXPRESS_URL}/entrenamientos/${entrenamientoSeleccionado}`, { method: 'DELETE' })
     cerrarOpciones() //cierra las opciones después del delete
     pedirEntrenamientos() // y refresca la lista actualizada
   }
 
   const editarEntrenamiento = async () => { //hacemos un fetch para conseguir los datos del entrenamiento ya guardado, y los cargamos al contexto para que la página de entrenamiento rápido pueda usarlos
-    const response = await fetch(`http://localhost:3000/entrenamientos/${entrenamientoSeleccionado}`)
+    const response = await fetch(`${VITE_EXPRESS_URL}/entrenamientos/${entrenamientoSeleccionado}`)
     const datos = await response.json()
 
     setEjercicios(datos.ejercicios)

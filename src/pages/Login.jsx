@@ -4,6 +4,7 @@ import './Login.css'
 
 export const Login = () => {
 
+    const {VITE_EXPRESS_URL} = import.meta.env
     const loginRef = useRef()
     const navigate = useNavigate()
 
@@ -15,7 +16,7 @@ export const Login = () => {
         const contrasena = form.elements.contrasena.value
 
         try {
-            const response = await fetch('http://localhost:3000/login', {
+            const response = await fetch(`${VITE_EXPRESS_URL}/login`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

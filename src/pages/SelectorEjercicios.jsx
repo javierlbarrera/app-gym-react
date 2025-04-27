@@ -5,6 +5,8 @@ import { useNavigate } from 'react-router-dom'
 
 export const SelectorEjercicios = () => {
 
+    const {VITE_EXPRESS_URL} = import.meta.env
+
     const [listaEjercicios, setListaEjercicios] = useState([]) //state para guardar los ejercicios que vienen de la API y poder filtralos dinámicamente
     const [terminoBusqueda, setTerminoBusqueda] = useState('') //state para guardar el valor del input de la búsqueda (como en clase :) )
     const [grupoMuscular, setGrupoMuscular] = useState('') //state para guardar el valor del select de grupo muscular 
@@ -12,7 +14,7 @@ export const SelectorEjercicios = () => {
     const navigate = useNavigate()
 
     const recibirEjercicios = async () => {
-        const response = await fetch('http://localhost:3000/ejercicios')
+        const response = await fetch(`${VITE_EXPRESS_URL}/ejercicios`)
         const datos = await response.json()
         setListaEjercicios(datos)
     }
