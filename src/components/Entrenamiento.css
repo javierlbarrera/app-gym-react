@@ -47,9 +47,7 @@ svg {
     flex-direction: row;
     gap: 1rem;
 }
-.Usuario__foto{
 
-}
 .Usuario__info{
     font-size: 1rem;
     display: flex;
@@ -73,12 +71,6 @@ svg {
     display: flex;
     flex-direction: column;
     gap: 0.4rem;
-}
-.Datos--tiempo{
-    
-}
-.Datos--volumen{
-    
 }
 .Datos__valor{
     color: #757575;

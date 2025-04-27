@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import { useContext, useState } from 'react'
 import { EntrenamientoContexto } from '../context/EntrenamientoContexto'
 import './Ejercicio.css'
 
@@ -51,7 +51,7 @@ export const Ejercicio = (props) => {
                     <tr><th>Serie</th><th>KG</th><th>Repeticiones</th><th></th></tr>
                 </thead>
                 <tbody>
-                    {series.map((serie, index) => (
+                    {series.map((serie, index) => ( //utilizo index porque no tengo un id único para cada serie
                         <tr key={index}>
                             <td>{index + 1}</td>
                             <td>
