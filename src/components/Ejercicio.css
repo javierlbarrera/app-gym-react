@@ -121,3 +121,10 @@
 .Boton__finalizar:hover {
     background-color: #388e3c;
 }
+
+@media (max-width: 768px) {
+    .TablaSeries th,
+    .TablaSeries td {
+        padding: 0.75rem 0.5rem;
+    }
+}

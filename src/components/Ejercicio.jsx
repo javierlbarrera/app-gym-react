@@ -63,7 +63,7 @@ export const Ejercicio = (props) => {
                                 />
                             </td>
                             <td>
-                                <input
+                                <input 
                                     type="number"
                                     value={serie.repeticiones}
                                     disabled={!editando} //bloquea el input si el ejercicio está "bloqueado"
